@@ -1,0 +1,129 @@
+enum class EstadosBebes {
+    despierto,
+    llorando,
+    dormido,
+    comiendo,
+    cagado_y_miado,
+    viendo_paw_patrol,
+    tieso,
+    bailando,
+    cantando,
+    marometa,
+    volando,
+    explotocionando
+}
+
+class Bebe(
+    var nombre: String,
+    var hambre: Int,
+    var pañal_lleno: Int,
+    var sueño: Int,
+    var estado: EstadosBebes = EstadosBebes.despierto,
+) {
+
+    private fun puedeHacerAccion(): Boolean {
+        return if (estado == EstadosBebes.dormido) {
+            println("El bebe no puede hacer eso, esta durmiendo")
+            false
+        } else true
+    }
+
+    fun alimentar() {
+        if (puedeHacerAccion()) {
+            estado = EstadosBebes.comiendo
+        }
+    }
+
+    fun dormir() {
+        if ((estado == EstadosBebes.despierto || estado == EstadosBebes.comiendo) && sueño > 49) {
+            sueño = 0
+            estado = EstadosBebes.dormido
+        }
+    }
+
+    fun despertar() {
+        if (estado == EstadosBebes.dormido) {
+            estado = EstadosBebes.despierto
+        }
+    }
+
+    fun despertar_con_agua() {
+        if (estado == EstadosBebes.dormido) {
+            estado = EstadosBebes.tieso
+        }
+    }
+
+    fun bailar() {
+        if (puedeHacerAccion()) estado = EstadosBebes.bailando
+    }
+
+    fun cantar() {
+        if (puedeHacerAccion()) estado = EstadosBebes.cantando
+    }
+
+    fun maromas() {
+        if (puedeHacerAccion()) estado = EstadosBebes.marometa
+    }
+
+    fun volar() {
+        if (puedeHacerAccion()) estado = EstadosBebes.volando
+    }
+
+    fun explotar() {
+        if (puedeHacerAccion()) estado = EstadosBebes.explotocionando
+    }
+
+    fun actualizar_estado() {
+        when (estado) {
+            EstadosBebes.despierto -> {
+                sueño += 5
+                hambre += 5
+                pañal_lleno += 3
+            }
+
+            EstadosBebes.comiendo -> {
+                hambre -= 40
+            }
+
+            else -> {}
+        }
+    }
+
+    fun picar_con_un_palo(): String {
+        return estado_actual()
+    }
+
+    fun estado_actual(): String {
+        return when (estado) {
+            EstadosBebes.despierto -> "El bebe esta despierto"
+            EstadosBebes.tieso -> "Estoy muerto"
+            EstadosBebes.dormido -> "Esta dormidito"
+            EstadosBebes.comiendo -> "Estoy alimentadome para ser grande y fuerte"
+            EstadosBebes.bailando -> "*Comienza a bailar breakdance*"
+            EstadosBebes.cantando -> "Stay with me... mayonaka no doa wo tataki"
+            EstadosBebes.marometa -> "Me creo el Kick Buttowsky y hago acrobacias"
+            EstadosBebes.volando -> "El bebe ha activado el modo creativo y comenzo a volar"
+            EstadosBebes.explotocionando -> "Se activo la secuencia de autodestruccion... Corre..."
+            else -> "No identifico el estado"
+        }
+    }
+}
+
+fun main() {
+    val JackieShieras = Bebe("Jackie Shieras", 50, 10, 70)
+    JackieShieras.actualizar_estado()
+    println("El estado del bebe es ${JackieShieras.estado_actual()}")
+
+    JackieShieras.dormir()
+    println("El estado del bebe es ${JackieShieras.estado_actual()}")
+
+    JackieShieras.bailar()
+    println("El estado del bebe es ${JackieShieras.estado_actual()}")
+
+    JackieShieras.despertar()
+    JackieShieras.bailar() 
+    println("El estado del bebe es ${JackieShieras.estado_actual()}")
+    
+    JackieShieras.explotar()
+    println("El estado del bebe es ${JackieShieras.estado_actual()}")
+}
